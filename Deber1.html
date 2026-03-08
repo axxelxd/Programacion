@@ -3,77 +3,332 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deber 1</title>
+    <title>Deberes · cards neumórficas</title>
+    <!-- Font Awesome 6 (iconos representativos) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
 
-<style>
-body{
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    text-align: center;
-}
+        body {
+            min-height: 100vh;
+            background: #0d0f12;  /* fondo oscuro moderno */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
 
-.contenedor{
-    margin-top: 120px;
-}
+        /* contenedor grid responsive */
+        .grid-cards {
+            max-width: 1300px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem 1.8rem;
+            margin: 2rem 0;
+        }
 
-h1{
-    color: #2a5298;
-}
+        /* ===== CARD ===== */
+        .card {
+            background: #f5f7fc;  /* card clara con ligero tono frío */
+            border-radius: 2rem;    /* bordes muy redondeados, moderno */
+            padding: 2rem 1.5rem 1.8rem 1.5rem;
+            box-shadow: -10px -10px 20px rgba(255, 255, 255, 0.05),    /* neumorphism / soft shadow */
+                        10px 10px 25px rgba(0, 0, 0, 0.4),
+                        inset 2px 2px 5px rgba(255, 255, 255, 0.7),
+                        inset -3px -3px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.4s ease;
+            will-change: transform, box-shadow;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
 
-p{
-    font-size: 18px;
-}
+        /* efecto hover: elevarse ligeramente + sombra más profunda */
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: -8px -8px 18px rgba(255, 255, 255, 0.1),
+                        18px 18px 30px rgba(0, 0, 0, 0.5),
+                        inset 1px 1px 4px rgba(255, 255, 255, 0.8),
+                        inset -3px -3px 8px rgba(0, 0, 0, 0.1);
+        }
 
-a{
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #2a5298;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-}
+        /* icono representativo (arriba, diseño minimalista) */
+        .card-icon {
+            font-size: 2.6rem;
+            color: #4b3bff;  /* toque morado/azul brillante */
+            margin-bottom: 0.75rem;
+            filter: drop-shadow(2px 4px 6px rgba(75, 59, 255, 0.3));
+            transition: transform 0.2s;
+        }
 
-a:hover{
-    background-color: #1e3c72;
-}
-</style>
+        .card:hover .card-icon {
+            transform: rotate(-3deg) scale(1.05);
+        }
 
+        /* título grande: "Deber 1" */
+        .card h2 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            color: #1e1e2f;
+            margin-bottom: 0.75rem;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.05);
+        }
+
+        /* pequeña descripción */
+        .card-description {
+            font-size: 1rem;
+            color: #3a3a4a;
+            line-height: 1.5;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            border-left: 3px solid #7c6aff;
+            padding-left: 1rem;
+            background: rgba(124, 106, 255, 0.03);
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+
+        /* contenedor de botones */
+        .card-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: auto;
+            flex-wrap: wrap;
+        }
+
+        /* estilo base botones */
+        .btn {
+            border: none;
+            padding: 0.85rem 1.6rem;
+            border-radius: 2rem;           /* redondeados pero ligeramente menos que la card */
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            background: #eef2f9;            /* base clara para que resalten sombras */
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.15),
+                        -3px -3px 8px rgba(255, 255, 255, 0.7);
+            flex: 1 1 auto;
+            color: #1a1a2a;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        /* botones con acento azul/morado brillante (Ver y Vista) */
+        .btn-primary {
+            background: #6d5cff;    /* morado/azul brillante */
+            color: white;
+            box-shadow: 0 6px 14px rgba(109, 92, 255, 0.4),
+                        2px 2px 6px rgba(0, 0, 0, 0.2),
+                        inset 0 -1px 3px rgba(255,255,255,0.3);
+            border: 1px solid #a599ff;
+        }
+
+        .btn-secondary {
+            background: #ad9eff;    /* un morado más claro pero igual brillante */
+            color: #0f0f1c;
+            box-shadow: 0 6px 14px rgba(173, 158, 255, 0.5),
+                        2px 2px 6px rgba(0, 0, 0, 0.15),
+                        inset 0 -1px 3px rgba(255,255,255,0.5);
+            border: 1px solid #d3c9ff;
+        }
+
+        /* efecto de iluminación hover en botones */
+        .btn-primary:hover {
+            background: #5f4ef0;
+            box-shadow: 0 10px 20px rgba(109, 92, 255, 0.7), 0 0 0 2px rgba(255, 255, 255, 0.3);
+            transform: scale(1.03) translateY(-2px);
+        }
+
+        .btn-secondary:hover {
+            background: #c4b8ff;
+            box-shadow: 0 10px 18px rgba(173, 158, 255, 0.7), 0 0 0 2px rgba(255, 255, 255, 0.4);
+            transform: scale(1.03) translateY(-2px);
+            color: #000;
+        }
+
+        /* efecto activo (pequeño clic) */
+        .btn:active {
+            transform: scale(0.98);
+            box-shadow: inset 2px 2px 8px rgba(0,0,0,0.2), 0 0 0 2px #ffffff80;
+        }
+
+        /* íconos dentro de botones (opcional) */
+        .btn i {
+            font-size: 1.1rem;
+        }
+
+        /* texto secundario (vista previa) */
+        .btn span {
+            font-weight: 500;
+        }
+
+        /* responsive para móviles: cards más compactas */
+        @media (max-width: 640px) {
+            body {
+                padding: 1.5rem 0.8rem;
+            }
+            .grid-cards {
+                gap: 1.5rem;
+            }
+            .card {
+                padding: 1.5rem 1.2rem;
+                border-radius: 1.8rem;
+            }
+            .card h2 {
+                font-size: 2.4rem;
+            }
+            .btn {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        /* pequeño título de cabecera opcional */
+        .page-title {
+            color: #eef3ff;
+            font-weight: 300;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        /* simulación de contenido adicional para vista previa (no funcional) */
+        .preview-indicator {
+            pointer-events: none;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="page-title">✧  TAREAS PENDIENTES  ✧</div>
 
-<div class="contenedor">
+    <!-- Grid de cards (deber 1 al 6, con variedad de iconos y descripciones) -->
+    <div class="grid-cards">
+        
+        <!-- Deber 1 -->
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-flask"></i></div>
+            <h2>Deber 1</h2>
+            <div class="card-description">Laboratorio de química: enlace iónico y propiedades. Preparar informe.</div>
+            <div class="card-actions">
+                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
+                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+            </div>
+        </div>
 
-<h1>Deber 1</h1>
- <pre><code>
-    def saludar():
+        <!-- Deber 2 -->
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-code"></i></div>
+            <h2>Deber 2</h2>
+            <div class="card-description">Ejercicios de JavaScript: manipulación del DOM y eventos.</div>
+            <div class="card-actions">
+                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
+                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+            </div>
+        </div>
 
-    print("Calculadora basica \n1..para sumar\n2..para restar")
-   
-saludar()
-  </code></pre>
-<p>El deber 1 trata sobre la sentencia <b>if</b> en programación, la cual se utiliza para tomar decisiones dentro de un programa dependiendo de una condición.
-</p>
+        <!-- Deber 3 -->
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-pen-fancy"></i></div>
+            <h2>Deber 3</h2>
+            <div class="card-description">Redacción: ensayo sobre literatura contemporánea latinoamericana.</div>
+            <div class="card-actions">
+                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
+                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+            </div>
+        </div>
 
-<a href="index.html">Volver a la portada</a>
+        <!-- Deber 4 -->
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-calculator"></i></div>
+            <h2>Deber 4</h2>
+            <div class="card-description">Cálculo diferencial: derivadas de funciones trigonométricas.</div>
+            <div class="card-actions">
+                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
+                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+            </div>
+        </div>
 
-<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+        <!-- Deber 5 -->
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-globe"></i></div>
+            <h2>Deber 5</h2>
+            <div class="card-description">Geografía: cambios demográficos en Europa durante el siglo XX.</div>
+            <div class="card-actions">
+                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
+                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+            </div>
+        </div>
 
-  <iframe src="https://drive.google.com/file/d/1ZMasKdBPzVtIdKPEU7Vj4C-TVLEQ1j6H/preview"
+        <!-- Deber 6 -->
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-paint-brush"></i></div>
+            <h2>Deber 6</h2>
+            <div class="card-description">Historia del arte: analizar una obra de Frida Kahlo.</div>
+            <div class="card-actions">
+                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
+                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+            </div>
+        </div>
 
-    style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+        <!-- Deber 7 (extra para demostrar más items) -->
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-dna"></i></div>
+            <h2>Deber 7</h2>
+            <div class="card-description">Biología: replicación del ADN y transcripción genética.</div>
+            <div class="card-actions">
+                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
+                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+            </div>
+        </div>
 
-    allow="autoplay; encrypted-media" allowfullscreen>
+        <!-- Deber 8 -->
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-music"></i></div>
+            <h2>Deber 8</h2>
+            <div class="card-description">Armonía musical: análisis de una fuga de Bach.</div>
+            <div class="card-actions">
+                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
+                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+            </div>
+        </div>
+    </div>
 
-  </iframe>
+    <!-- pequeña nota estilo footnote (opcional) -->
+    <div style="color: #7f8b9f; margin-top: 2rem; font-size: 0.9rem; display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center;">
+        <span><i class="fas-regular fa-message" style="margin-right: 0.4rem;"></i> hover cards → se elevan · botones con iluminación</span>
+        <span><i class="fa-regular fa-keyboard"></i> diseño neumorphism / sombras suaves</span>
+    </div>
 
- 
-
-</div>
-
-
-</div>
-
+    <script>
+        // (Opcional) Los botones no tienen funcionalidad específica, solo UI.
+        // Se puede añadir un pequeño feedback de consola si se desea.
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Solo para simular una interacción, no redirige.
+                if(btn.classList.contains('btn-primary')){
+                    console.log('Acción "Ver" desde', btn.closest('.card')?.querySelector('h2')?.innerText);
+                } else {
+                    console.log('Acción "Vista previa" desde', btn.closest('.card')?.querySelector('h2')?.innerText);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
