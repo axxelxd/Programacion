@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deberes · cards neumórficas</title>
-    <!-- Font Awesome 6 (iconos representativos) -->
+    <title>ClassTasks · 30 deberes + 10 actividades · Listo para enlaces</title>
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -15,320 +15,965 @@
         }
 
         body {
+            background: #0b0e14;
             min-height: 100vh;
-            background: #0d0f12;  /* fondo oscuro moderno */
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             padding: 2rem 1.5rem;
         }
 
-        /* contenedor grid responsive */
-        .grid-cards {
+        .category-header {
+            width: 100%;
+            max-width: 1300px;
+            margin: 2.5rem 0 1.5rem 0;
+        }
+        
+        .category-title {
+            display: inline-block;
+            color: #eef2f8;
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: rgba(25, 35, 55, 0.8);
+            backdrop-filter: blur(4px);
+            padding: 0.6rem 2.2rem 0.6rem 2rem;
+            border-radius: 60px;
+            border: 1px solid #4a5168;
+            box-shadow: 0 12px 20px -10px #00000080;
+        }
+        
+        .category-title i {
+            color: #7c9cff;
+            margin-right: 14px;
+        }
+
+        .cards-grid {
             max-width: 1300px;
             width: 100%;
+            margin: 0 auto 2rem auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem 1.8rem;
-            margin: 2rem 0;
         }
 
-        /* ===== CARD ===== */
-        .card {
-            background: #f5f7fc;  /* card clara con ligero tono frío */
-            border-radius: 2rem;    /* bordes muy redondeados, moderno */
-            padding: 2rem 1.5rem 1.8rem 1.5rem;
-            box-shadow: -10px -10px 20px rgba(255, 255, 255, 0.05),    /* neumorphism / soft shadow */
-                        10px 10px 25px rgba(0, 0, 0, 0.4),
-                        inset 2px 2px 5px rgba(255, 255, 255, 0.7),
-                        inset -3px -3px 8px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.4s ease;
-            will-change: transform, box-shadow;
+        .task-card {
+            background: #ecf0f3;
+            border-radius: 2.2rem;
+            padding: 1.8rem 1.6rem 2rem 1.6rem;
+            box-shadow: -10px -10px 20px rgba(255, 255, 255, 0.5), 12px 12px 24px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             display: flex;
             flex-direction: column;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.25);
         }
 
-        /* efecto hover: elevarse ligeramente + sombra más profunda */
-        .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: -8px -8px 18px rgba(255, 255, 255, 0.1),
-                        18px 18px 30px rgba(0, 0, 0, 0.5),
-                        inset 1px 1px 4px rgba(255, 255, 255, 0.8),
-                        inset -3px -3px 8px rgba(0, 0, 0, 0.1);
+        .task-card:hover {
+            transform: translateY(-10px);
+            box-shadow: -14px -14px 26px rgba(255, 255, 255, 0.65), 18px 18px 32px rgba(0, 0, 0, 0.35);
         }
 
-        /* icono representativo (arriba, diseño minimalista) */
-        .card-icon {
-            font-size: 2.6rem;
-            color: #4b3bff;  /* toque morado/azul brillante */
-            margin-bottom: 0.75rem;
-            filter: drop-shadow(2px 4px 6px rgba(75, 59, 255, 0.3));
-            transition: transform 0.2s;
-        }
-
-        .card:hover .card-icon {
-            transform: rotate(-3deg) scale(1.05);
-        }
-
-        /* título grande: "Deber 1" */
-        .card h2 {
-            font-size: 2.8rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-            color: #1e1e2f;
-            margin-bottom: 0.75rem;
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.05);
-        }
-
-        /* pequeña descripción */
-        .card-description {
-            font-size: 1rem;
-            color: #3a3a4a;
-            line-height: 1.5;
-            margin-bottom: 2rem;
-            font-weight: 400;
-            border-left: 3px solid #7c6aff;
-            padding-left: 1rem;
-            background: rgba(124, 106, 255, 0.03);
-            border-radius: 0 0.5rem 0.5rem 0;
-        }
-
-        /* contenedor de botones */
-        .card-actions {
+        .card-header {
             display: flex;
-            gap: 1rem;
-            margin-top: auto;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
         }
 
-        /* estilo base botones */
-        .btn {
-            border: none;
-            padding: 0.85rem 1.6rem;
-            border-radius: 2rem;           /* redondeados pero ligeramente menos que la card */
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.25s ease;
+        .icon-wrapper {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.6rem;
-            background: #eef2f9;            /* base clara para que resalten sombras */
-            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.15),
-                        -3px -3px 8px rgba(255, 255, 255, 0.7);
-            flex: 1 1 auto;
-            color: #1a1a2a;
-            border: 1px solid rgba(255,255,255,0.5);
+            width: 3.2rem;
+            height: 3.2rem;
+            background: linear-gradient(135deg, #ffffff, #dfe4ec);
+            border-radius: 1.4rem;
+            box-shadow: inset 2px 2px 5px #ffffff, inset -3px -3px 7px rgba(0,0,0,0.1), 0 8px 12px -6px rgba(0,20,30,0.2);
+            color: #1e2b3c;
+            font-size: 1.5rem;
         }
 
-        /* botones con acento azul/morado brillante (Ver y Vista) */
+        .task-card h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            color: #121724;
+            margin-bottom: 0.2rem;
+        }
+
+        .card-category {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #3a4a7a;
+            background: rgba(90, 120, 240, 0.15);
+            display: inline-block;
+            padding: 0.2rem 1.2rem;
+            border-radius: 40px;
+            margin: 0.2rem 0 0.8rem 0;
+            border: 1px solid rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .task-description {
+            color: #2f3547;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0.4rem 0 1.6rem 0;
+            opacity: 0.8;
+            font-weight: 400;
+            flex: 1;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 0.3rem;
+        }
+
+        .btn {
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 2.8rem;
+            font-size: 0.95rem;
+            font-weight: 560;
+            cursor: pointer;
+            background: #ecf0f3;
+            box-shadow: -4px -4px 10px rgba(255,255,255,0.8), 5px 5px 12px rgba(0, 0, 0, 0.18);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            color: #1e212b;
+            flex: 1 0 auto;
+            border: 1px solid rgba(255,255,255,0.6);
+            text-decoration: none;
+        }
+
         .btn-primary {
-            background: #6d5cff;    /* morado/azul brillante */
+            background: #3a5ef0;
             color: white;
-            box-shadow: 0 6px 14px rgba(109, 92, 255, 0.4),
-                        2px 2px 6px rgba(0, 0, 0, 0.2),
-                        inset 0 -1px 3px rgba(255,255,255,0.3);
-            border: 1px solid #a599ff;
+            box-shadow: -4px -4px 10px rgba(255, 255, 255, 0.5), 5px 5px 14px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(58, 94, 240, 0.4);
         }
 
         .btn-secondary {
-            background: #ad9eff;    /* un morado más claro pero igual brillante */
-            color: #0f0f1c;
-            box-shadow: 0 6px 14px rgba(173, 158, 255, 0.5),
-                        2px 2px 6px rgba(0, 0, 0, 0.15),
-                        inset 0 -1px 3px rgba(255,255,255,0.5);
-            border: 1px solid #d3c9ff;
+            background: #8b3cff;
+            color: white;
+            box-shadow: -4px -4px 10px rgba(255, 255, 255, 0.5), 5px 5px 14px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(139, 60, 255, 0.4);
         }
 
-        /* efecto de iluminación hover en botones */
         .btn-primary:hover {
-            background: #5f4ef0;
-            box-shadow: 0 10px 20px rgba(109, 92, 255, 0.7), 0 0 0 2px rgba(255, 255, 255, 0.3);
-            transform: scale(1.03) translateY(-2px);
+            background: #5373ff;
+            box-shadow: -5px -5px 14px rgba(255, 255, 255, 0.7), 6px 6px 18px rgba(0, 0, 0, 0.3), 0 0 18px #3a5ef0cc;
+            transform: scale(1.02);
         }
 
         .btn-secondary:hover {
-            background: #c4b8ff;
-            box-shadow: 0 10px 18px rgba(173, 158, 255, 0.7), 0 0 0 2px rgba(255, 255, 255, 0.4);
-            transform: scale(1.03) translateY(-2px);
-            color: #000;
+            background: #9d5aff;
+            box-shadow: -5px -5px 14px rgba(255, 255, 255, 0.7), 6px 6px 18px rgba(0, 0, 0, 0.3), 0 0 18px #8b3cffcc;
+            transform: scale(1.02);
         }
 
-        /* efecto activo (pequeño clic) */
-        .btn:active {
-            transform: scale(0.98);
-            box-shadow: inset 2px 2px 8px rgba(0,0,0,0.2), 0 0 0 2px #ffffff80;
-        }
-
-        /* íconos dentro de botones (opcional) */
         .btn i {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
         }
 
-        /* texto secundario (vista previa) */
-        .btn span {
-            font-weight: 500;
+        .drive-badge {
+            font-size: 0.7rem;
+            background: rgba(0,0,0,0.05);
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            color: #1a4d8c;
+            margin-left: 0.3rem;
         }
 
-        /* responsive para móviles: cards más compactas */
-        @media (max-width: 640px) {
-            body {
-                padding: 1.5rem 0.8rem;
-            }
-            .grid-cards {
+        @media (max-width: 600px) {
+            .cards-grid {
                 gap: 1.5rem;
             }
-            .card {
+            .task-card {
                 padding: 1.5rem 1.2rem;
-                border-radius: 1.8rem;
             }
-            .card h2 {
-                font-size: 2.4rem;
-            }
-            .btn {
-                padding: 0.7rem 1.2rem;
-                font-size: 0.95rem;
+            .task-card h2 {
+                font-size: 1.8rem;
             }
         }
 
-        /* pequeño título de cabecera opcional */
-        .page-title {
-            color: #eef3ff;
-            font-weight: 300;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            opacity: 0.8;
-        }
-
-        /* simulación de contenido adicional para vista previa (no funcional) */
-        .preview-indicator {
-            pointer-events: none;
+        .footer-note {
+            color: #7e879b;
+            margin: 2.5rem 0 1rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="page-title">✧  TAREAS PENDIENTES  ✧</div>
-
-    <!-- Grid de cards (deber 1 al 6, con variedad de iconos y descripciones) -->
-    <div class="grid-cards">
-        
-        <!-- Deber 1 -->
-        <div class="card">
-            <div class="card-icon"><i class="fas fa-flask"></i></div>
+    <!-- ============================================= -->
+    <!-- SECCIÓN: DEBER 1 – SENTENCIA IF (10 cards)   -->
+    <!-- ============================================= -->
+    <div class="category-header">
+        <div class="category-title"><i class="fas fa-code-branch"></i> Deber 1 – Sentencia if</div>
+    </div>
+    <div class="cards-grid">
+        <!-- Deber 1 (if) 1/10 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-question"></i></div></div>
             <h2>Deber 1</h2>
-            <div class="card-description">Laboratorio de química: enlace iónico y propiedades. Preparar informe.</div>
+            <div class="card-category">Pide un número al usuario y muestra si es mayor que 50</div>
+            <p class="task-description">
+numero = float(input("Ingresa un número: "))
+if numero > 50:
+    print("El número es mayor que 50")
+else:
+    print("El número no es mayor que 50").</p>
             <div class="card-actions">
-                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
-                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+                <a href="https://drive.google.com/file/d/1ZMasKdBPzVtIdKPEU7Vj4C-TVLEQ1j6H/view?usp=sharing" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1ZMasKdBPzVtIdKPEU7Vj4C-TVLEQ1j6H/view?usp=sharing" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
             </div>
         </div>
-
-        <!-- Deber 2 -->
-        <div class="card">
-            <div class="card-icon"><i class="fas fa-code"></i></div>
+        <!-- Deber 2 (if) -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-question"></i></div></div>
             <h2>Deber 2</h2>
-            <div class="card-description">Ejercicios de JavaScript: manipulación del DOM y eventos.</div>
+            <div class="card-category">Pide la edad de una persona y determina si puede votar (18 años o más)</div>
+            <p class="task-description">
+edad = int(input("Ingresa tu edad: "))
+if edad >= 18:
+    print("Puede votar")
+else:
+    print("No puede votar").</p>
             <div class="card-actions">
-                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
-                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+                <a href="https://drive.google.com/file/d/1ZMasKdBPzVtIdKPEU7Vj4C-TVLEQ1j6H/view?usp=sharing" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1ZMasKdBPzVtIdKPEU7Vj4C-TVLEQ1j6H/view?usp=sharing" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
             </div>
         </div>
-
-        <!-- Deber 3 -->
-        <div class="card">
-            <div class="card-icon"><i class="fas fa-pen-fancy"></i></div>
+        <!-- Deber 3 (if) -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-question"></i></div></div>
             <h2>Deber 3</h2>
-            <div class="card-description">Redacción: ensayo sobre literatura contemporánea latinoamericana.</div>
+            <div class="card-category">Pide un número y verifica si es múltiplo de 3</div>
+            <p class="task-description">
+numero = int(input("Ingresa un número: "))
+if numero % 3 == 0:
+    print("Es múltiplo de 3")
+else:
+    print("No es múltiplo de 3")</p>
             <div class="card-actions">
-                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
-                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+                <a href="https://drive.google.com/file/d/1ny9I_bSRYR6OgUdzgoif7qS4w6Ncel8Y/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_DEBER3_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
             </div>
         </div>
-
-        <!-- Deber 4 -->
-        <div class="card">
-            <div class="card-icon"><i class="fas fa-calculator"></i></div>
+        <!-- Deber 4 (if) -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-question"></i></div></div>
             <h2>Deber 4</h2>
-            <div class="card-description">Cálculo diferencial: derivadas de funciones trigonométricas.</div>
+            <div class="card-category">Pide una contraseña y comprueba si es igual a</div>
+            <p class="task-description">
+contraseña = input("Ingresa la contraseña: ")
+if contraseña == "1234":
+    print("Contraseña correcta")
+else:
+    print("Contraseña incorrecta")</p>
             <div class="card-actions">
-                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
-                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+                <a href="https://drive.google.com/file/d/1r8JAxMsIqq1nOw-vptyawqzWJmZ0FKUI/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_DEBER4_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
             </div>
         </div>
-
-        <!-- Deber 5 -->
-        <div class="card">
-            <div class="card-icon"><i class="fas fa-globe"></i></div>
+        <!-- Deber 5 (if) -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-question"></i></div></div>
             <h2>Deber 5</h2>
-            <div class="card-description">Geografía: cambios demográficos en Europa durante el siglo XX.</div>
+            <div class="card-category">Pide una nota del 0 al 10 y muestra si el estudiante está aprobado (≥ 7) o reprobado</div>
+            <p class="task-description">
+nota = float(input("Ingresa la nota (0 a 10): "))
+if nota >= 7:
+    print("Aprobado")
+else:
+    print("Reprobado").</p>
             <div class="card-actions">
-                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
-                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+                <a href="https://drive.google.com/file/d/1fba4oXPd2ncgDw0SmJ2YdfhKmDBamG1L/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_DEBER5_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
             </div>
         </div>
-
-        <!-- Deber 6 -->
-        <div class="card">
-            <div class="card-icon"><i class="fas fa-paint-brush"></i></div>
+        <!-- Deber 6 (if) -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-question"></i></div></div>
             <h2>Deber 6</h2>
-            <div class="card-description">Historia del arte: analizar una obra de Frida Kahlo.</div>
+            <div class="card-category">Pide dos números y muestra cuál de los dos es mayor</div>
+            <p class="task-description">
+num1 = float(input("Ingresa el primer número: "))
+num2 = float(input("Ingresa el segundo número: "))
+if num1 > num2:
+    print("El primer número es mayor")
+elif num2 > num1:
+    print("El segundo número es mayor")
+else:
+    print("Ambos números son iguales").</p>
             <div class="card-actions">
-                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
-                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+                <a href="https://drive.google.com/file/d/1XoPhVnrVts7_KwZe2ysCu4ZoXtz6X1PF/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_DEBER6_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
             </div>
         </div>
-
-        <!-- Deber 7 (extra para demostrar más items) -->
-        <div class="card">
-            <div class="card-icon"><i class="fas fa-dna"></i></div>
+        <!-- Deber 7 (if) -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-question"></i></div></div>
             <h2>Deber 7</h2>
-            <div class="card-description">Biología: replicación del ADN y transcripción genética.</div>
+            <div class="card-category">Pide un número y determina si es positivo, negativo o cero</div>
+            <p class="task-description">
+numero = float(input("Ingresa un número: "))
+if numero > 0:
+print("Es positivo")
+elif numero < 0:
+print("Es negativo")
+else:
+print("Es cero").</p>
             <div class="card-actions">
-                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
-                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+                <a href="https://drive.google.com/file/d/1tw0sZNE9An3hPScXocPBxBwTQJby2zqK/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_DEBER7_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
             </div>
         </div>
-
-        <!-- Deber 8 -->
-        <div class="card">
-            <div class="card-icon"><i class="fas fa-music"></i></div>
+        <!-- Deber 8 (if) -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-question"></i></div></div>
             <h2>Deber 8</h2>
-            <div class="card-description">Armonía musical: análisis de una fuga de Bach.</div>
+            <div class="card-category">Pide una letra e indica si es una vocal</div>
+            <p class="task-description">
+letra = input("Ingresa una letra: ")
+if letra.lower() in "aeiou":
+print("Es una vocal")
+else:
+print("No es una vocal").</p>
             <div class="card-actions">
-                <button class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
-                <button class="btn btn-secondary"><i class="fas fa-magnifying-glass"></i> Vista</button>
+                <a href="https://drive.google.com/file/d/1R9BClbEyuXBUJVsvemFsnjKW9xRnUYSe/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_DEBER8_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Deber 9 (if) -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-question"></i></div></div>
+            <h2>Deber 9</h2>
+            <div class="card-category">Pide una temperatura y muestra si hace frío (menos de 15 °C).</div>
+            <p class="task-description">
+temperatura = float(input("Ingresa la temperatura en °C: "))
+if temperatura < 15:
+print("Hace frío")
+else:
+print("No hace frío").</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1fVCJL1H6Qz9OgGeZXLNXRLQFuR5Bqurk/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_DEBER9_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Deber 10 (if) -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-question"></i></div></div>
+            <h2>Deber 10</h2>
+            <div class="card-category">Pide un año e indica si es bisiesto usando únicamente condiciones</div>
+            <p class="task-description">
+año = int(input("Ingresa un año: "))
+if (año % 4 == 0 and año % 100 != 0) or (año % 400 == 0):
+print("Es bisiesto")
+else:
+print("No es bisiesto").</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1ATduqPW4VK5J2ZyVn5KaVplhPcw0Cg7r/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_DEBER10_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- pequeña nota estilo footnote (opcional) -->
-    <div style="color: #7f8b9f; margin-top: 2rem; font-size: 0.9rem; display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center;">
-        <span><i class="fas-regular fa-message" style="margin-right: 0.4rem;"></i> hover cards → se elevan · botones con iluminación</span>
-        <span><i class="fa-regular fa-keyboard"></i> diseño neumorphism / sombras suaves</span>
+    <!-- ============================================= -->
+    <!-- SECCIÓN: DEBER 2 – BUCLES (10 cards)         -->
+    <!-- ============================================= -->
+    <div class="category-header">
+        <div class="category-title"><i class="fas fa-rotate"></i> Deber 2 – Bucles</div>
+    </div>
+    <div class="cards-grid">
+        <!-- Bucle 1 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-repeat"></i></div></div>
+            <h2>Deber 1</h2>
+            <div class="card-category">Imprime los números del 1 al 10</div>
+            <p class="task-description">for i in range(1, 11): 
+print(i).</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1yKhBDy-pYujvMb_kJGcGjo6i-tuD9n0i/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_BUCLE1_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Bucle 2 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-repeat"></i></div></div>
+            <h2>Deber 2</h2>
+            <div class="card-category">Imprime los números pares del 1 al 20</div>
+            <p class="task-description">for i in range(1, 21):
+    if i % 2 == 0:
+        print(i).</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1A8npsimL3CO2lap2_VqnFMvU3qrOYsCj/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_BUCLE2_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Bucle 3 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-repeat"></i></div></div>
+            <h2>Deber 3</h2>
+            <div class="card-category">Muestra la tabla de multiplicar del número que ingrese el usuario</div>
+            <p class="task-description">for i in range(1, 11):
+    resultado = numero * i  
+print(numero, "x", i, "=", resultado).</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1PlWh972i23b2Z_XO5wPh4x3rD7GkZmH_/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_BUCLE3_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Bucle 4 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-repeat"></i></div></div>
+            <h2>Deber 4</h2>
+            <div class="card-category">Imprime los números del 10 al 1 en orden descendente</div>
+            <p class="task-description">while i >= 1:  
+    print(i)  
+    i -= 1  .</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1qa0ff99tS9BOff8pNrjAgMUnBKw26Qcx/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_BUCLE4_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Bucle 5 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-repeat"></i></div></div>
+            <h2>Deber 5</h2>
+            <div class="card-category">Pide un número y calcula la suma acumulada desde 1 hasta ese valor</div>
+            <p class="task-description">for i in range(1, numero + 1): 
+ suma += i  
+print("La suma es:", suma) .</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1IR3RDoOSobZZ0kMTC_haOPxUI-GHlJIt/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_BUCLE5_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Bucle 6 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-repeat"></i></div></div>
+            <h2>Deber 6</h2>
+            <div class="card-category">Cuenta cuántas vocales hay en una palabra ingresada por el usuario</div>
+            <p class="task-description">for letra in palabra:
+    if letra.lower() in "aeiou": 
+contador += 1 
+print("Cantidad de vocales:", contador).</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1kV9AwFEZAXbE04pfw1wXc9Bf7BFnYI_z/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_BUCLE6_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Bucle 7 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-repeat"></i></div></div>
+            <h2>Deber 7</h2>
+            <div class="card-category">Solicita una contraseña repetidamente hasta que el usuario la ingrese de forma correcta</div>
+            <p class="task-description">clave_correcta = "1234" 
+clave = "" 
+while clave != clave_correcta:
+clave = input("Ingresa la contraseña: ") 
+if clave != clave_correcta:
+print("Contraseña incorrecta, intenta de nuevo")
+print("Contraseña correcta, acceso permitido").</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1uY7u1xmPAd7bJ0hxeb-4SVa4DiAkn7LL/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_BUCLE7_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Bucle 8 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-repeat"></i></div></div>
+            <h2>Deber 8</h2>
+            <div class="card-category">Muestra los números del 1 al 50 que sean múltiplos de 5</div>
+            <p class="task-description">for i in range(1, 51):
+    if i % 5 == 0: 
+    print(i).</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1hQjfRYfhM18ipj4gz9m_LAPF-LraXl8r/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_BUCLE8_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Bucle 9 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-repeat"></i></div></div>
+            <h2>Deber 9</h2>
+            <div class="card-category">Pide 5 números al usuario e indica cuál es el mayor</div>
+            <p class="task-description">for i in range(5):
+    num = float(input("Ingresa un número: "))
+    if mayor is None or num > mayor:  
+        mayor = num.</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1CmPUNP5Hxggu2y23s7Z4zgNZDxQ7uVMY/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_BUCLE9_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Bucle 10 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-repeat"></i></div></div>
+            <h2>Deber 10</h2>
+            <div class="card-category">Imprime un triángulo de asteriscos de 5 filas</div>
+            <p class="task-description">for i in range(1, 6):
+    print("*" * i).</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/15aFyWg_5elvo-HvUmQnZcAQSiykQZ46X/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_BUCLE10_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
     </div>
 
-    <script>
-        // (Opcional) Los botones no tienen funcionalidad específica, solo UI.
-        // Se puede añadir un pequeño feedback de consola si se desea.
-        const buttons = document.querySelectorAll('.btn');
-        buttons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                // Solo para simular una interacción, no redirige.
-                if(btn.classList.contains('btn-primary')){
-                    console.log('Acción "Ver" desde', btn.closest('.card')?.querySelector('h2')?.innerText);
-                } else {
-                    console.log('Acción "Vista previa" desde', btn.closest('.card')?.querySelector('h2')?.innerText);
-                }
-            });
-        });
-    </script>
+    <!-- ============================================= -->
+    <!-- SECCIÓN: DEBER 3 – FUNCIONES (10 cards)      -->
+    <!-- ============================================= -->
+    <div class="category-header">
+        <div class="category-title"><i class="fas fa-cube"></i> Deber 3 – Funciones</div>
+    </div>
+    <div class="cards-grid">
+        <!-- Función 1 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-f"></i></div></div>
+            <h2>Deber 1</h2>
+            <div class="card-category">Crea una función que muestre un mensaje de bienvenida personalizado</div>
+            <p class="task-description">def bienvenida(nombre):
+                print("Bienvenido,", nombre) 
+nombre_usuario = input("Ingresa tu nombre: ")
+bienvenida(nombre_usuario).</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1x6t-Laq4uZv_5bjgcgEhI0qGoa3xk7Ck/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_FUNCION1_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Función 2 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-f"></i></div></div>
+            <h2>Deber 2</h2>
+            <div class="card-category">Crea una función que reciba un número y determine si es par o impar</div>
+            <p class="task-description">def verificar(numero):
+if numero % 2 == 0:
+print("Es par")
+else:
+print("Es impar")
+num = int(input("Ingresa un número: ")).</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1L2ABax-FRReVV5qZ_NaKobDy-IpgxRGs/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_FUNCION2_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Función 3 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-f"></i></div></div>
+            <h2>Deber 3</h2>
+            <div class="card-category">Crea una función que reciba dos números y retorne su suma</div>
+            <p class="task-description">def sumar(a, b):
+return a + b  # Retorna la suma
+num1 = float(input("Ingresa el primer número: "))
+num2 = float(input("Ingresa el segundo número: "))
+resultado = sumar(num1, num2).</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1qtDPfxxgP7s_xrhBEYzrkQhfyST4vl3E/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_FUNCION3_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Función 4 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-f"></i></div></div>
+            <h2>Deber 4</h2>
+            <div class="card-category">Crea una función que reciba una palabra y retorne su longitud</div>
+            <p class="task-description">def longitud(palabra):
+return len(palabra)  # Retorna la cantidad de caracteres
+texto = input("Ingresa una palabra: ")
+resultado = longitud(texto)
+print("La longitud es:", resultado).</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/15g1vNuxpeqUvdepvQspHlFsB2DeWNnWe/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_FUNCION4_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Función 5 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-f"></i></div></div>
+            <h2>Deber 5</h2>
+            <div class="card-category">Crea una función que reciba un número y retorne su cuadrado</div>
+            <p class="task-description">def cuadrado(numero):
+return numero ** 2  
+num = float(input("Ingresa un número: "))
+resultado = cuadrado(num)
+print("El cuadrado es:", resultado).</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1aSglJqZbhpbRMETFkP4j8dl2_8e9L2ER/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_FUNCION5_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Función 6 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-f"></i></div></div>
+            <h2>Deber 6</h2>
+            <div class="card-category">Crea una función que reciba tres números y retorne el mayor de ellos</div>
+            <p class="task-description">def mayor(a, b, c):
+return max(a, b, c)  # Retorna el número mayor
+n1 = float(input("Ingresa el primer número: "))
+n2 = float(input("Ingresa el segundo número: "))
+n3 = float(input("Ingresa el tercer número: "))
+resultado = mayor(n1, n2, n3).</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1prlH7QarYVPVQRhxjZXCPyfimJoJvAAh/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_FUNCION6_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Función 7 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-f"></i></div></div>
+            <h2>Deber 7</h2>
+            <div class="card-category">Crea una función que convierta una temperatura de Celsius a Fahrenheit</div>
+            <p class="task-description">
+def convertir(celsius):
+return (celsius * 9/5) + 32 
+temp = float(input("Ingresa la temperatura en Celsius: ")) 
+resultado = convertir(temp)
+print("Temperatura en Fahrenheit:", resultado).</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1N2Wgw7tt5LMf2eaUujMDkB5QjiXYd_N-/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_FUNCION7_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Función 8 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-f"></i></div></div>
+            <h2>Deber 8</h2>
+            <div class="card-category">Crea una función que reciba una lista de números y retorne la suma total</div>
+            <p class="task-description">
+def suma_lista(numeros):
+suma = 0 
+def suma_lista(numeros):
+suma = 0 
+return suma .</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1BiCWIit3KdloDYEMbp7khBDsSmhFynzx/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_FUNCION8_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Función 9 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-f"></i></div></div>
+            <h2>Deber 9</h2>
+            <div class="card-category">Crea una función que retorne True si un número es positivo, o False si no lo es.</div>
+            <p class="task-description">
+def es_positivo(numero):
+if numero > 0: 
+return True  
+else:
+return False .</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1Vh0TZNLh1-L8_oxldORMSxg7QBH4_VZX/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_FUNCION9_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Función 10 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-f"></i></div></div>
+            <h2>Deber 10</h2>
+            <div class="card-category">Crea una función que reciba una palabra y retorne la cadena invertida</div>
+            <p class="task-description">
+def invertir(palabra):
+ return palabra[::-1]  
+texto = input("Ingresa una palabra: ")
+resultado = invertir(texto)
+print("Palabra invertida:", resultado).</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1wzXF4bfV6VTc7WKn3kEen5_bpTUTYe-p/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_FUNCION10_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- SECCIÓN: ACTIVIDADES (10 cards)              -->
+    <!-- ============================================= -->
+    <div class="category-header">
+        <div class="category-title"><i class="fas fa-chalkboard-user"></i> Actividades en clase</div>
+    </div>
+    <div class="cards-grid">
+        <!-- Actividad 1 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-comments"></i></div></div>
+            <h2>Actividad 1</h2>
+            <div class="card-category">calculadora basica</div>
+            <p class="task-description">es un programa que permite realizar operaciones matemáticas básicas como suma, resta, multiplicación y división. Funciona pidiendo al usuario que ingrese dos números y que elija la operación que desea realizar. Luego, mediante condiciones (if y elif), el programa ejecuta la operación seleccionada y muestra el resultado en pantalla..</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/16Fe4QONX7sq2spGLvDdyH_cMAlZJEsie/view?usp=sharing" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD1_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Actividad 2 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-diagram-project"></i></div></div>
+            <h2>Actividad 2</h2>
+            <div class="card-category">saludo personalizado</div>
+            <p class="task-description">Un saludo personalizado con Tkinter es un programa que crea una ventana gráfica donde el usuario puede escribir su nombre en un campo de texto. Al presionar un botón, el programa toma el nombre ingresado y muestra un mensaje de saludo personalizado, por ejemplo: “Hola Axel, bienvenido”.</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1pP2e13uq9k5FToEAGD6lvFW_FxmaT1py/view?usp=sharing" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD2_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Actividad 3 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-arrows-spin"></i></div></div>
+            <h2>Actividad 3</h2>
+            <div class="card-category">Calculadora de notas</div>
+            <p class="task-description">La calculadora de notas es un programa que permite ingresar varias calificaciones, calcular su promedio y determinar si el estudiante aprueba o reprueba. Utiliza una interfaz gráfica donde el usuario introduce las notas en diferentes campos y, al presionar un botón, el sistema realiza el cálculo y muestra el resultado junto con el estado final según el promedio obtenido.</p>
+            <div class="card-actions">
+                <a href="https://drive.google.com/file/d/1D8JRgQXznQ5r3Wre0Q__fW9FFCmRWCpW/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD3_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Actividad 4 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-chart-simple"></i></div></div>
+            <h2>Actividad 4</h2>
+            <div class="card-category">análisis</div>
+            <p class="task-description">Comparar eficiencia de algoritmos de ordenamiento.</p>
+            <div class="card-actions">
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD4_VER" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD4_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Actividad 5 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-puzzle-piece"></i></div></div>
+            <h2>Actividad 5</h2>
+            <div class="card-category">problemas</div>
+            <p class="task-description">Ejercicios con funciones matemáticas personalizadas.</p>
+            <div class="card-actions">
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD5_VER" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD5_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Actividad 6 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-people-group"></i></div></div>
+            <h2>Actividad 6</h2>
+            <div class="card-category">colaborativo</div>
+            <p class="task-description">Diseñar calculadora de IMC con if.</p>
+            <div class="card-actions">
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD6_VER" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD6_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Actividad 7 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-list-check"></i></div></div>
+            <h2>Actividad 7</h2>
+            <div class="card-category">revisión</div>
+            <p class="task-description">Peer review de ejercicios de bucles.</p>
+            <div class="card-actions">
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD7_VER" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD7_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Actividad 8 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-file-lines"></i></div></div>
+            <h2>Actividad 8</h2>
+            <div class="card-category">cuestionario</div>
+            <p class="task-description">Preguntas sobre ámbito de variables y funciones.</p>
+            <div class="card-actions">
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD8_VER" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD8_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Actividad 9 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-lightbulb"></i></div></div>
+            <h2>Actividad 9</h2>
+            <div class="card-category">lluvia ideas</div>
+            <p class="task-description">Proponer soluciones para ordenamiento sin funciones nativas.</p>
+            <div class="card-actions">
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD9_VER" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD9_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+        <!-- Actividad 10 -->
+        <div class="task-card">
+            <div class="card-header"><div class="icon-wrapper"><i class="fas fa-laptop"></i></div></div>
+            <h2>Actividad 10</h2>
+            <div class="card-category">laboratorio</div>
+            <p class="task-description">Implementar funciones para series numéricas.</p>
+            <div class="card-actions">
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD10_VER" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> Ver <span class="drive-badge">Drive</span>
+                </a>
+                <a href="AQUI_VAN_TUS_ENLACES_ACTIVIDAD10_PREVIEW" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera-retro"></i> Vista previa <span class="drive-badge">Drive</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        <i class="fas fa-google-drive"></i> 30 deberes + 10 actividades · Solo reemplaza "AQUI_VAN_TUS_ENLACES" con tus URLs de Drive
+    </div>
 </body>
 </html>
